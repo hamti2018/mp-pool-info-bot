@@ -12,7 +12,6 @@ const processStatuses = {
   bakers: false,
   endors: false,
   accuser: false
-
 }
 
 setInterval(async function () {
@@ -45,8 +44,7 @@ setInterval(async function () {
     await sendNotification(message.join('\n'))
   }
 
-  for (key in processStatuses) processStatuses[key] = false
-
+  for (const key in processStatuses) processStatuses[key] = false
 }, 5000)
 
 processStatus.command('process', async ctx => {
