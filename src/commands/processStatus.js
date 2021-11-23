@@ -7,16 +7,45 @@ import sendNotification from '../sendNotification.js'
 
 const processStatus = new Composer()
 
-const processStatuses = {
-  node: false,
-  bakers: false,
-  endors: false,
-  accuser: false
-}
-
 setInterval(async function () {
   // eslint-disable-next-line no-eval
   if (!eval(process.env.NOTIFICATION)) return
+  const { node, bakers, endors, accuser } = getProcessStatus()
+  if (!node || !bakers || !endors || !accuser) {
+    const message = [
+      '🆘🆘🆘🆘🆘🆘\n',
+      ((node) ? '✅ ' : '❌ ') + format.bold('Node: ') + node,
+      ((bakers) ? '✅ ' : '❌ ') + format.bold('Backers: ') + bakers,
+      ((endors) ? '✅ ' : '❌ ') + format.bold('Endors: ') + endors,
+      ((accuser) ? '✅ ' : '❌ ') + format.bold('Accuser: ') + accuser,
+      '\n🆘🆘🆘🆘🆘🆘'
+    ]
+    await sendNotification(message.join('\n'))
+  }
+}, 5000)
+
+processStatus.command('process', async ctx => {
+  const { node, bakers, endors, accuser } = getProcessStatus()
+  const message = [
+    ((node) ? '✅ ' : '❌ ') + format.bold('Node: ') + node,
+    ((bakers) ? '✅ ' : '❌ ') + format.bold('Backers: ') + bakers,
+    ((endors) ? '✅ ' : '❌ ') + format.bold('Endors: ') + endors,
+    ((accuser) ? '✅ ' : '❌ ') + format.bold('Accuser: ') + accuser
+  ]
+
+  await ctx.reply(message.join('\n'), {
+    parse_mode: 'MarkdownV2'
+  })
+})
+
+async function getProcessStatus() {
+  const processStatuses = {
+    node: false,
+    bakers: false,
+    endors: false,
+    accuser: false
+  }
+
   try {
     await mpapi.rpc.getMineBalance(process.env.BAKER_ADDRESS)
     processStatuses.node = true
@@ -31,34 +60,7 @@ setInterval(async function () {
     if (name.includes('mineplex-accuse')) processStatuses.accuser = true
   })
 
-  const { node, bakers, endors, accuser } = processStatuses
-  if (!node || !bakers || !endors || !accuser) {
-    const message = [
-      '🆘🆘🆘🆘🆘🆘\n',
-      ((node) ? '✅ ' : '❌ ') + format.bold('Node: ') + node,
-      ((bakers) ? '✅ ' : '❌ ') + format.bold('Backers: ') + bakers,
-      ((endors) ? '✅ ' : '❌ ') + format.bold('Endors: ') + endors,
-      ((accuser) ? '✅ ' : '❌ ') + format.bold('Accuser: ') + accuser,
-      '\n🆘🆘🆘🆘🆘🆘'
-    ]
-    await sendNotification(message.join('\n'))
-  }
-
-  for (const key in processStatuses) processStatuses[key] = false
-}, 5000)
-
-processStatus.command('process', async ctx => {
-  const { node, bakers, endors, accuser } = processStatuses
-  const message = [
-    ((node) ? '✅ ' : '❌ ') + format.bold('Node: ') + node,
-    ((bakers) ? '✅ ' : '❌ ') + format.bold('Backers: ') + bakers,
-    ((endors) ? '✅ ' : '❌ ') + format.bold('Endors: ') + endors,
-    ((accuser) ? '✅ ' : '❌ ') + format.bold('Accuser: ') + accuser
-  ]
-
-  await ctx.reply(message.join('\n'), {
-    parse_mode: 'MarkdownV2'
-  })
-})
+  return processStatuses
+}
 
 export default processStatus
