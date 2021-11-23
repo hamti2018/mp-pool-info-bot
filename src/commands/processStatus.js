@@ -44,6 +44,9 @@ setInterval(async function () {
     ]
     await sendNotification(message.join('\n'))
   }
+
+  for (key in processStatuses) processStatuses[key] = false
+
 }, 5000)
 
 processStatus.command('process', async ctx => {
