@@ -10,7 +10,7 @@ const processStatus = new Composer()
 setInterval(async function () {
   // eslint-disable-next-line no-eval
   if (!eval(process.env.NOTIFICATION)) return
-  const { node, bakers, endors, accuser } = getProcessStatus()
+  const { node, bakers, endors, accuser } = await getProcessStatus()
   if (!node || !bakers || !endors || !accuser) {
     const message = [
       '🆘🆘🆘🆘🆘🆘\n',
@@ -25,7 +25,8 @@ setInterval(async function () {
 }, 5000)
 
 processStatus.command('process', async ctx => {
-  const { node, bakers, endors, accuser } = getProcessStatus()
+  const { node, bakers, endors, accuser } = await getProcessStatus()
+
   const message = [
     ((node) ? '✅ ' : '❌ ') + format.bold('Node: ') + node,
     ((bakers) ? '✅ ' : '❌ ') + format.bold('Backers: ') + bakers,
