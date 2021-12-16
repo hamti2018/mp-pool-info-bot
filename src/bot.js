@@ -12,6 +12,10 @@ const bot = new Bot(process.env.BOT_TOKEN)
 bot.api.config.use(throttler)
 bot.filter(ctx => filter(ctx))
 bot.use(...commands)
+bot.catch((err) => {
+  const ctx = err.ctx
+  console.error(`Error while handling update ${ctx.update.update_id}:`)
+})
 
 async function filter(ctx) {
   const id = ctx.from?.id
