@@ -17,16 +17,26 @@ bot.catch((err) => {
   console.error(`Error while handling update ${ctx.update.update_id}:`)
 })
 
-async function filter(ctx) {
+bot.use(async (ctx, next) => {
   const id = ctx.from?.id
   // eslint-disable-next-line no-eval
   if (eval(process.env.ADMIN_IDS).includes(id)) {
-    return true
+    await next()
   }
 
   await ctx.reply('Вы не админ')
-  return false
-}
+})
+
+// async function filter(ctx) {
+//   const id = ctx.from?.id
+//   // eslint-disable-next-line no-eval
+//   if (eval(process.env.ADMIN_IDS).includes(id)) {
+//     return true
+//   }
+
+//   await ctx.reply('Вы не админ')
+//   return false
+// }
 
 process.once('SIGINT', () => bot.stop('SIGINT'))
 process.once('SIGTERM', () => bot.stop('SIGTERM'))
