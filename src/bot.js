@@ -15,6 +15,7 @@ bot.use(async (ctx, next) => {
   // eslint-disable-next-line no-eval
   if (eval(process.env.ADMIN_IDS).includes(id)) {
     await next()
+    return
   }
 
   await ctx.reply('Вы не админ')
