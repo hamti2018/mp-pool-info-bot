@@ -18,6 +18,8 @@ const BAKER_NAMES = [
 ]
 
 const ADMIN_IDS = [
+  111,
+  222
 ]
 
 export {
