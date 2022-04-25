@@ -9,6 +9,8 @@ const BAKER_ADDRESSES = [
   'mp17wUiFpN2iQA8rVx4yro5vJ9WhBdhWCdEt'
 ]
 
+BAKER_ADDRESSES.reverse()
+
 const BAKER_NAMES = [
   'pool2',
   'pool3',
