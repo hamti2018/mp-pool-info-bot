@@ -59,7 +59,7 @@ async function getProcessStatus() {
   })
 
   try {
-    await mpapi.rpc.getMineBalance(process.env.BAKER_ADDRESS)
+    await mpapi.rpc.getMineBalance('mp17wUiFpN2iQA8rVx4yro5vJ9WhBdhWCdEt')
     processStatuses.node = true
   } catch (e) {
     if (e.message.includes('ECONNREFUSED')) processStatuses.node = false
