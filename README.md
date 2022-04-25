@@ -3,8 +3,8 @@
 * git clone https://github.com/hamti2018/mpPoolInfoBot
 * cd mpPoolInfoBot
 * npm install
-* sudo mv .env-example .env
-* mv config-example.js config.js
+* sudo cp .env-example .env
+* cp config-example.js config.js
 * sudo nano .env
 * sudo nano config.js
 
