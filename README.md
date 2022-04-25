@@ -6,7 +6,7 @@
 * sudo mv .env-example .env
 * sudo nano .env
 
-Отредактируйте файл .env
+Отредактируйте файл .env и config.js
 
 # Start
 
