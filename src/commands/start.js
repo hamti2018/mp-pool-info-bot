@@ -10,7 +10,7 @@ start.command('start', async ctx => {
   const message = [
     format.bold(format.escape('✅ /process'))
   ]
-  BAKER_ADDRESSES.reverse().forEach(baker => message.unshift(format.bold(format.escape(`💰 /balance_${baker}`))))
+  BAKER_ADDRESSES.forEach(baker => message.unshift(format.bold(format.escape(`💰 /balance_${baker}`))))
   await ctx.reply(message.join('\n'), {
     parse_mode: 'MarkdownV2'
   })
