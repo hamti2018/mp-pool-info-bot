@@ -6,7 +6,8 @@ const { utility } = mpapi
 
 const balance = new Composer()
 
-balance.command('balance', async ctx => {
+balance.hears(/\/balance_mp1*(.+)?/, async ctx => {
+  const bakerAddress = ctx.message.text.split('_')[1]
   const {
     balance,
     frozen_balance: frozenBalance,
@@ -14,7 +15,7 @@ balance.command('balance', async ctx => {
     delegated_balance: delegatedBalance,
     delegated_contracts: delegatedContracts,
     deactivated
-  } = await mpapi.rpc.getDelegateInfo(process.env.BAKER_ADDRESS)
+  } = await mpapi.rpc.getDelegateInfo(bakerAddress)
   const message = [
     format.bold('💰 Баланс пула: ') + utility.totez(balance).toFixed(0) + format.escape(` - [${div(utility.totez(balance))}MM]`),
     format.bold('👑 Стейкнули: ') + utility.totez(delegatedBalance).toFixed(0) + format.escape(` - [${div(utility.totez(delegatedBalance))}MM]`),

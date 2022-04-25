@@ -2,7 +2,9 @@
 
 import { mpapi } from 'mineplex-rpcapi'
 
-mpapi.node.setProvider(process.env.RPC_HOST)
+import { PRC_HOST } from '../config.js'
+
+mpapi.node.setProvider(PRC_HOST)
 mpapi.node.setDebugMode(false)
 
 export { mpapi }
